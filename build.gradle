@@ -1,12 +1,38 @@
-apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: "net.saliman.cobertura"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.saliman:gradle-cobertura-plugin:2.3.2"
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.7'
+    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4-rc-3'
+    testRuntime group: 'cglib', name: 'cglib-nodep', version: '3.2.4'
+    testRuntime group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.22'
+    testRuntime group: 'org.objenesis', name: 'objenesis', version: '2.4'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.calculator.RpnCalculator'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
