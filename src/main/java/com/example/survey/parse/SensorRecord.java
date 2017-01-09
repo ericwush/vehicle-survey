@@ -1,6 +1,7 @@
 package com.example.survey.parse;
 
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class SensorRecord {
 
@@ -18,6 +19,25 @@ public class SensorRecord {
 
   public LocalTime getTime() {
     return time;
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (o == this) {
+      return true;
+    }
+
+    if (o instanceof SensorRecord) {
+      SensorRecord other = (SensorRecord) o;
+      return Objects.equals(type, other.type) && Objects.equals(time, other.time);
+    }
+
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(type, time);
   }
 
 }
