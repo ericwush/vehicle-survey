@@ -1,6 +1,6 @@
-package com.example.survey.process;
+package com.example.survey.vehicle;
 
-import com.example.survey.parse.SensorType;
+import com.example.survey.sensor.SensorType;
 
 import java.time.LocalTime;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.example.survey.parse;
+package com.example.survey.sensor;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;

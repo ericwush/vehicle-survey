@@ -1,4 +1,4 @@
-package com.example.survey.parse;
+package com.example.survey.sensor;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,6 +1,6 @@
-package com.example.survey.process;
+package com.example.survey.vehicle;
 
-import com.example.survey.parse.SensorDailyRecords;
+import com.example.survey.sensor.SensorDailyRecords;
 
 import java.util.Collection;
 import java.util.List;
