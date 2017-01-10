@@ -3,6 +3,7 @@ package com.example.survey.parse;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -49,6 +50,27 @@ public class SensorDailyRecords {
 
   public List<SensorRecord> getDailyRecords() {
     return dailyRecords;
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (o == this) {
+      return true;
+    }
+
+    if (o instanceof SensorDailyRecords) {
+      SensorDailyRecords other = (SensorDailyRecords) o;
+      return Objects.equals(type, other.type)
+          && Objects.equals(day, other.day)
+          && Objects.equals(dailyRecords, other.dailyRecords);
+    }
+
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(type, day, dailyRecords);
   }
 
 }
