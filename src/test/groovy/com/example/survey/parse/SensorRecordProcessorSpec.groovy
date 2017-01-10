@@ -40,19 +40,17 @@ class SensorRecordProcessorSpec extends Specification {
     processor.storeRecords().apply(records)
 
     then:
-    1 * repository.addRecords(records, _ as Map<SensorType, List<SensorDailyRecords>>)
+    1 * repository.addRecords(records)
   }
 
   def "test should throw exception if validation failed"() {
     def dailyRecords1 = Mock(SensorDailyRecords)
     def dailyRecords2 = Mock(SensorDailyRecords)
-    def sensors = new HashMap<SensorType, List<SensorDailyRecords>>()
 
     when:
-    sensors.put(SensorType.A, [dailyRecords1, dailyRecords2])
     dailyRecords1.validate() >> Optional.of(new Exception("error1"))
     dailyRecords2.validate() >> Optional.of(new Exception("error2"))
-    processor.validateRecords().apply(sensors)
+    processor.validateRecords().apply([dailyRecords1, dailyRecords2])
 
     then:
     IllegalStateException exception = thrown()
@@ -62,16 +60,14 @@ class SensorRecordProcessorSpec extends Specification {
   def "test should return sensors if validation passed"() {
     def dailyRecords1 = Mock(SensorDailyRecords)
     def dailyRecords2 = Mock(SensorDailyRecords)
-    def sensors = new HashMap<SensorType, List<SensorDailyRecords>>()
 
     when:
-    sensors.put(SensorType.A, [dailyRecords1, dailyRecords2])
     dailyRecords1.validate() >> Optional.empty()
     dailyRecords2.validate() >> Optional.empty()
-    def result = processor.validateRecords().apply(sensors)
+    def result = processor.validateRecords().apply([dailyRecords1, dailyRecords2])
 
     then:
-    result == sensors
+    result == [dailyRecords1, dailyRecords2]
   }
 
 }

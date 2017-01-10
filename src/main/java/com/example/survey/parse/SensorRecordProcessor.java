@@ -1,9 +1,6 @@
 package com.example.survey.parse;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -31,18 +28,13 @@ public class SensorRecordProcessor {
           .map(Optional::get);
   }
 
-  public Function<Stream<SensorRecord>, Map<SensorType, List<SensorDailyRecords>>> storeRecords() {
-    return records -> {
-      Map<SensorType, List<SensorDailyRecords>> sensors = new HashMap<>();
-      return repository.addRecords(records, sensors);
-    };
+  public Function<Stream<SensorRecord>, List<SensorDailyRecords>> storeRecords() {
+    return repository::addRecords;
   }
 
-  public Function<Map<SensorType, List<SensorDailyRecords>>,
-          Map<SensorType, List<SensorDailyRecords>>> validateRecords() {
+  public Function<List<SensorDailyRecords>, List<SensorDailyRecords>> validateRecords() {
     return sensors -> {
-      String error = sensors.values().stream()
-          .flatMap(Collection::stream)
+      String error = sensors.stream()
           .map(SensorDailyRecords::validate)
           .filter(Optional::isPresent)
           .map(Optional::get)

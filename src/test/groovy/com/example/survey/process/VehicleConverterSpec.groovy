@@ -6,6 +6,7 @@ import com.example.survey.parse.SensorType
 import spock.lang.Specification
 
 import java.time.LocalTime
+import java.util.stream.Collectors
 
 class VehicleConverterSpec extends Specification {
 
@@ -30,7 +31,7 @@ class VehicleConverterSpec extends Specification {
     dailyRecords.addRecord(record2)
     dailyRecords.addRecord(record3)
     dailyRecords.addRecord(record4)
-    def vehicles = converter.apply(dailyRecords)
+    def vehicles = converter.convert().apply([dailyRecords]).collect(Collectors.toList())
     def vehicle1 = new Vehicle(sensorType, day, LocalTime.of(1, 2), LocalTime.of(3, 4))
     def vehicle2 = new Vehicle(sensorType, day, LocalTime.of(5, 6), LocalTime.of(7, 8))
 

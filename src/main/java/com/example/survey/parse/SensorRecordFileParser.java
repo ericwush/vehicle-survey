@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +17,7 @@ public class SensorRecordFileParser {
     this.processor = processor;
   }
 
-  public Map<SensorType, List<SensorDailyRecords>> parse(final String filename) {
+  public List<SensorDailyRecords> parse(final String filename) {
     try (Stream<String> lines = Files.lines(Paths.get(filename))) {
       return processor.parseRecords()
           .andThen(processor.storeRecords())
