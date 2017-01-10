@@ -20,13 +20,12 @@ class VehicleConverterSpec extends Specification {
   }
 
   def "test convert sensor records to vehicles"() {
-    def dailyRecords = new SensorDailyRecords(sensorType, day)
-
     when:
     def record1 = new SensorRecord(sensorType, LocalTime.of(1, 2))
     def record2 = new SensorRecord(sensorType, LocalTime.of(3, 4))
     def record3 = new SensorRecord(sensorType, LocalTime.of(5, 6))
     def record4 = new SensorRecord(sensorType, LocalTime.of(7, 8))
+    def dailyRecords = new SensorDailyRecords(sensorType, day)
     dailyRecords.addRecord(record1)
     dailyRecords.addRecord(record2)
     dailyRecords.addRecord(record3)

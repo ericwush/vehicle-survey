@@ -20,9 +20,8 @@ class SensorRecordProcessorSpec extends Specification {
   }
 
   def "test should only store parsed records"() {
-    def record = Mock(SensorRecord)
-
     when:
+    def record = Mock(SensorRecord)
     parser.parse("valid") >> Optional.of(record)
     parser.parse("invalid") >> Optional.empty()
     def input = ["valid", "invalid"].stream()
@@ -44,10 +43,9 @@ class SensorRecordProcessorSpec extends Specification {
   }
 
   def "test should throw exception if validation failed"() {
+    when:
     def dailyRecords1 = Mock(SensorDailyRecords)
     def dailyRecords2 = Mock(SensorDailyRecords)
-
-    when:
     dailyRecords1.validate() >> Optional.of(new Exception("error1"))
     dailyRecords2.validate() >> Optional.of(new Exception("error2"))
     processor.validateRecords().apply([dailyRecords1, dailyRecords2])
@@ -58,10 +56,9 @@ class SensorRecordProcessorSpec extends Specification {
   }
 
   def "test should return sensors if validation passed"() {
+    when:
     def dailyRecords1 = Mock(SensorDailyRecords)
     def dailyRecords2 = Mock(SensorDailyRecords)
-
-    when:
     dailyRecords1.validate() >> Optional.empty()
     dailyRecords2.validate() >> Optional.empty()
     def result = processor.validateRecords().apply([dailyRecords1, dailyRecords2])
