@@ -1,17 +1,14 @@
 package com.example.survey.parse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * I contain sensor records for all the days for all sensors.
+ * I store sensor records by sensor types and days.
  */
 public class SensorRecordRepository {
-
-  private final Map<SensorType, List<SensorDailyRecords>> dailyRecordsMap = new HashMap<>();
 
   public Map<SensorType, List<SensorDailyRecords>> addRecords(final Stream<SensorRecord> records,
                                                               final Map<SensorType, List<SensorDailyRecords>> sensors) {

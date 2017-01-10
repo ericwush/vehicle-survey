@@ -21,6 +21,7 @@ class SensorRecordProcessorSpec extends Specification {
 
   def "test should only store parsed records"() {
     def record = Mock(SensorRecord)
+
     when:
     parser.parse("valid") >> Optional.of(record)
     parser.parse("invalid") >> Optional.empty()
@@ -34,6 +35,7 @@ class SensorRecordProcessorSpec extends Specification {
 
   def "test should store sensor records"() {
     def records = [Mock(SensorRecord)].stream()
+
     when:
     processor.storeRecords().apply(records)
 
@@ -45,8 +47,9 @@ class SensorRecordProcessorSpec extends Specification {
     def dailyRecords1 = Mock(SensorDailyRecords)
     def dailyRecords2 = Mock(SensorDailyRecords)
     def sensors = new HashMap<SensorType, List<SensorDailyRecords>>()
-    sensors.put(SensorType.A, [dailyRecords1, dailyRecords2])
+
     when:
+    sensors.put(SensorType.A, [dailyRecords1, dailyRecords2])
     dailyRecords1.validate() >> Optional.of(new Exception("error1"))
     dailyRecords2.validate() >> Optional.of(new Exception("error2"))
     processor.validateRecords().apply(sensors)
@@ -60,8 +63,9 @@ class SensorRecordProcessorSpec extends Specification {
     def dailyRecords1 = Mock(SensorDailyRecords)
     def dailyRecords2 = Mock(SensorDailyRecords)
     def sensors = new HashMap<SensorType, List<SensorDailyRecords>>()
-    sensors.put(SensorType.A, [dailyRecords1, dailyRecords2])
+
     when:
+    sensors.put(SensorType.A, [dailyRecords1, dailyRecords2])
     dailyRecords1.validate() >> Optional.empty()
     dailyRecords2.validate() >> Optional.empty()
     def result = processor.validateRecords().apply(sensors)

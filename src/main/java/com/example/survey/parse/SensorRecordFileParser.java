@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * I read records file and parse records line by line
+ * I read records file and parse records line by line.
  */
 public class SensorRecordFileParser {
 
