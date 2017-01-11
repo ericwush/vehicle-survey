@@ -22,12 +22,22 @@ public class VehicleConverter {
   private Function<SensorDailyRecords, List<Vehicle>> convertDailyRecords() {
     return sensorDailyRecords ->
         IntStream.iterate(0, i -> i + 2).limit(sensorDailyRecords.getDailyRecords().size() / 2)
-          .mapToObj(i ->
-              new Vehicle(sensorDailyRecords.getType(),
-                  sensorDailyRecords.getDay(),
-                  sensorDailyRecords.getDailyRecords().get(i).getTime(),
-                  sensorDailyRecords.getDailyRecords().get(i + 1).getTime()))
-          .collect(toList());
+            .mapToObj(i -> {
+                  if (i == 0) {
+                    return new Vehicle(sensorDailyRecords.getType(),
+                        sensorDailyRecords.getDay(),
+                        sensorDailyRecords.getDailyRecords().get(i).getTime(),
+                        sensorDailyRecords.getDailyRecords().get(i + 1).getTime());
+                  } else {
+                    return new Vehicle(sensorDailyRecords.getType(),
+                        sensorDailyRecords.getDay(),
+                        sensorDailyRecords.getDailyRecords().get(i).getTime(),
+                        sensorDailyRecords.getDailyRecords().get(i + 1).getTime(),
+                        sensorDailyRecords.getDailyRecords().get(i - 1).getTime());
+                  }
+                }
+            )
+            .collect(toList());
   }
 
 }

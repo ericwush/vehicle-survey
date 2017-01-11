@@ -2,21 +2,50 @@ package com.example.survey.vehicle;
 
 import com.example.survey.sensor.SensorType;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.OptionalInt;
 
 public class Vehicle {
+
+  // This can be externalized to configuration
+  private static final BigDecimal KMS_BETWEEN_AXLES = new BigDecimal(2.5 / 1000);
+  private static final BigDecimal HOUR_IN_MILLIS = new BigDecimal(60 * 60 * 1000);
+  private static final BigDecimal KM_IN_METERS = new BigDecimal(1000);
 
   private final SensorType sensorType;
   private final int day;
   private final LocalTime axle1Time;
   private final LocalTime axle2Time;
+  private final int speed;
+  private final OptionalInt distance;
 
-  public Vehicle(final SensorType sensorType, final int day, final LocalTime axle1Time, final LocalTime axle2Time) {
+  public Vehicle(final SensorType sensorType,
+                 final int day,
+                 final LocalTime axle1Time,
+                 final LocalTime axle2Time) {
     this.sensorType = sensorType;
     this.day = day;
     this.axle1Time = axle1Time;
     this.axle2Time = axle2Time;
+    this.speed = getEstimatedSpeed(axle1Time, axle2Time);
+    this.distance = OptionalInt.empty();
+  }
+
+  public Vehicle(final SensorType sensorType,
+                 final int day,
+                 final LocalTime axle1Time,
+                 final LocalTime axle2Time,
+                 final LocalTime previousAxle2Time) {
+    this.sensorType = sensorType;
+    this.day = day;
+    this.axle1Time = axle1Time;
+    this.axle2Time = axle2Time;
+    this.speed = getEstimatedSpeed(axle1Time, axle2Time);
+    this.distance = OptionalInt.of(getEstimatedDistance(axle1Time, previousAxle2Time, speed));
   }
 
   public SensorType getSensorType() {
@@ -31,8 +60,34 @@ public class Vehicle {
     return axle1Time;
   }
 
-  public LocalTime getAxle2Time() {
-    return axle2Time;
+  public int getSpeed() {
+    return speed;
+  }
+
+  public OptionalInt getDistance() {
+    return distance;
+  }
+
+  private int getEstimatedSpeed(LocalTime axle1Time, LocalTime axle2Time) {
+    long betweenAxles = ChronoUnit.MILLIS.between(axle1Time, axle2Time);
+    return KMS_BETWEEN_AXLES
+        .multiply(HOUR_IN_MILLIS)
+        .divide(new BigDecimal(betweenAxles), 10, RoundingMode.HALF_UP)
+        .setScale(0, RoundingMode.HALF_UP)
+        .intValue();
+  }
+
+  private Integer getEstimatedDistance(final LocalTime axle1Time,
+                                                 final LocalTime previousAxle2Time,
+                                                 final int speed) {
+    long betweenAxles = ChronoUnit.MILLIS.between(previousAxle2Time, axle1Time);
+
+    return new BigDecimal(speed)
+        .multiply(new BigDecimal(betweenAxles))
+        .divide(HOUR_IN_MILLIS, 10, RoundingMode.HALF_UP)
+        .multiply(KM_IN_METERS)
+        .setScale(0, RoundingMode.HALF_UP)
+        .intValue();
   }
 
   @Override

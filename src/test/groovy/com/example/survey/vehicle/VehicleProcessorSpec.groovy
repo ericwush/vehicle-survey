@@ -24,12 +24,12 @@ class VehicleProcessorSpec extends Specification {
 
   def "test process vehicle info that removes duplicates"() {
     when:
-    def record1 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 1000030))
-    def record2 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 1000033))
-    def record3 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 1000030))
-    def record4 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 1000033))
-    def record5 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 1000039))
-    def record6 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 1000043))
+    def record1 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 30000000))
+    def record2 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 33000000))
+    def record3 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 30000000))
+    def record4 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 33000000))
+    def record5 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 39000000))
+    def record6 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 43000000))
     def dailyRecords1 = new SensorDailyRecords(SensorType.A, 1)
     dailyRecords1.addRecord(record1)
     dailyRecords1.addRecord(record2)
@@ -39,12 +39,12 @@ class VehicleProcessorSpec extends Specification {
     dailyRecords2.addRecord(record5)
     dailyRecords2.addRecord(record6)
 
-    def record7 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 1000030))
-    def record8 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 1000033))
-    def record9 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 1000030))
-    def record10 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 1000033))
-    def record11 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 1000021))
-    def record12 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 1000023))
+    def record7 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 30000000))
+    def record8 = new SensorRecord(SensorType.A, LocalTime.of(0, 10, 0, 33000000))
+    def record9 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 30000000))
+    def record10 = new SensorRecord(SensorType.A, LocalTime.of(1, 10, 0, 33000000))
+    def record11 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 21000000))
+    def record12 = new SensorRecord(SensorType.B, LocalTime.of(0, 10, 0, 23000000))
     def dailyRecords3 = new SensorDailyRecords(SensorType.A, 2)
     dailyRecords3.addRecord(record7)
     dailyRecords3.addRecord(record8)
@@ -54,10 +54,10 @@ class VehicleProcessorSpec extends Specification {
     dailyRecords4.addRecord(record11)
     dailyRecords4.addRecord(record12)
 
-    def vehicle2 = new Vehicle(SensorType.A, 1, LocalTime.of(1, 10, 0, 1000030), LocalTime.of(1, 10, 0, 1000033))
-    def vehicle3 = new Vehicle(SensorType.B, 1, LocalTime.of(0, 10, 0, 1000039), LocalTime.of(0, 10, 0, 1000043))
-    def vehicle5 = new Vehicle(SensorType.A, 2, LocalTime.of(1, 10, 0, 1000030), LocalTime.of(1, 10, 0, 1000033))
-    def vehicle6 = new Vehicle(SensorType.B, 2, LocalTime.of(0, 10, 0, 1000021), LocalTime.of(0, 10, 0, 1000023))
+    def vehicle2 = new Vehicle(SensorType.A, 1, LocalTime.of(1, 10, 0, 30000000), LocalTime.of(1, 10, 0, 33000000))
+    def vehicle3 = new Vehicle(SensorType.B, 1, LocalTime.of(0, 10, 0, 39000000), LocalTime.of(0, 10, 0, 43000000))
+    def vehicle5 = new Vehicle(SensorType.A, 2, LocalTime.of(1, 10, 0, 30000000), LocalTime.of(1, 10, 0, 33000000))
+    def vehicle6 = new Vehicle(SensorType.B, 2, LocalTime.of(0, 10, 0, 21000000), LocalTime.of(0, 10, 0, 23000000))
 
     def result = processor.process([dailyRecords1, dailyRecords2, dailyRecords3, dailyRecords4])
 
