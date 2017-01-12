@@ -70,6 +70,9 @@ public class Vehicle {
 
   private int getEstimatedSpeed(LocalTime axle1Time, LocalTime axle2Time) {
     long betweenAxles = ChronoUnit.MILLIS.between(axle1Time, axle2Time);
+    if (betweenAxles <= 0) {
+      throw new IllegalArgumentException("Invalid axle times");
+    }
     return KMS_BETWEEN_AXLES
         .multiply(HOUR_IN_MILLIS)
         .divide(new BigDecimal(betweenAxles), 10, RoundingMode.HALF_UP)
@@ -81,7 +84,9 @@ public class Vehicle {
                                                  final LocalTime previousAxle2Time,
                                                  final int speed) {
     long betweenAxles = ChronoUnit.MILLIS.between(previousAxle2Time, axle1Time);
-
+    if (betweenAxles <= 0) {
+      throw new IllegalArgumentException("Invalid previous axle time");
+    }
     return new BigDecimal(speed)
         .multiply(new BigDecimal(betweenAxles))
         .divide(HOUR_IN_MILLIS, 10, RoundingMode.HALF_UP)
