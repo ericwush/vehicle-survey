@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Scanner;
 
-public class SpeedCommand implements Command {
+public class SpeedCommand implements InteractiveCommand {
 
   private final static CommandType TYPE = CommandType.SPEED;
   private final VehicleStats stats;
@@ -18,23 +18,13 @@ public class SpeedCommand implements Command {
   @Override
   public void update(final Observable listener, final Object commandLineString) {
     if (isCommand((String) commandLineString)) {
-      CommandLineListener commandLineListener = (CommandLineListener) listener;
-      commandLineListener.setListenNewCommand(false);
-      System.out.println(TYPE.getDescription());
-      try {
-        int interval = getInterval();
-        stats.displaySpeed(commandLineListener.getVehicles(), interval);
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
-        System.out.println("Back to top level menu");
-      }
-      ((CommandLineListener) listener).setListenNewCommand(true);
+      updateListenerAndExecute((CommandLineListener) listener);
     }
   }
 
   private int getInterval() {
     try {
-      System.out.print("interval: ");
+      System.out.print("interval in minutes: ");
       return new Scanner(System.in).nextInt();
     } catch (NoSuchElementException e) {
       return getInterval();
@@ -44,6 +34,11 @@ public class SpeedCommand implements Command {
   @Override
   public CommandType getType() {
     return TYPE;
+  }
+
+  @Override
+  public void execute(final CommandLineListener listener) {
+    stats.displaySpeed(listener.getVehicles(), getInterval());
   }
 
 }

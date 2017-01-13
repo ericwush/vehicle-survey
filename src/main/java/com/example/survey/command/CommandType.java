@@ -6,7 +6,8 @@ import java.util.Optional;
 public enum CommandType {
 
   MENU(0, "0 - Menu"), COUNT_DAY(1, "1 - Count by day"), COUNT_AVERAGE(2, "2 - Count average"),
-  PEAK_TIMES(3, "3 - Peak volume times"), SPEED(4, "4 - Speed"), DISTANCE(5, "5 - Distance");
+  PEAK_TIMES(3, "3 - Peak volume times"), SPEED(4, "4 - Speed"), DISTANCE(5, "5 - Distance"),
+  EXIT(6, "6 - Exit");
 
   private final int code;
   private final String description;

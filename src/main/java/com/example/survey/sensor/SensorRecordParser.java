@@ -9,7 +9,7 @@ public class SensorRecordParser implements RecordParser {
 
   private final RecordParser[] parsers;
 
-  public SensorRecordParser(RecordParser... parsers) {
+  public SensorRecordParser(final RecordParser... parsers) {
     this.parsers = parsers;
   }
 

@@ -29,7 +29,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.example.calculator.RpnCalculator'
+        attributes 'Main-Class': 'com.example.survey.VehicleSurvey'
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }

@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class VehicleStats {
 
-  // I would introduce Javaslang lib which provides Tuples
+  // I would have introduced Javaslang lib which provides Tuples
   // so it's easier to have richer info in return types
   // e.g. it can self contain intervalInMinutes and interpret the numbers representing the session
   // of a day to be more descriptive (present as time range)

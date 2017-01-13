@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Scanner;
 
-public class CountAverageCommand implements Command {
+public class CountAverageCommand implements InteractiveCommand {
 
   private final static CommandType TYPE = CommandType.COUNT_AVERAGE;
   private final VehicleStats stats;
@@ -18,23 +18,13 @@ public class CountAverageCommand implements Command {
   @Override
   public void update(final Observable listener, final Object commandLineString) {
     if (isCommand((String) commandLineString)) {
-      CommandLineListener commandLineListener = (CommandLineListener) listener;
-      commandLineListener.setListenNewCommand(false);
-      System.out.println(TYPE.getDescription());
-      try {
-        int interval = getInterval();
-        stats.displayCountAverage(commandLineListener.getVehicles(), interval);
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
-        System.out.println("Back to top level menu");
-      }
-      ((CommandLineListener) listener).setListenNewCommand(true);
+      updateListenerAndExecute((CommandLineListener) listener);
     }
   }
 
   private int getInterval() {
     try {
-      System.out.print("interval: ");
+      System.out.print("interval in minutes: ");
       return new Scanner(System.in).nextInt();
     } catch (NoSuchElementException e) {
       return getInterval();
@@ -46,4 +36,8 @@ public class CountAverageCommand implements Command {
     return TYPE;
   }
 
+  @Override
+  public void execute(final CommandLineListener listener) {
+    stats.displayCountAverage(listener.getVehicles(), getInterval());
+  }
 }
