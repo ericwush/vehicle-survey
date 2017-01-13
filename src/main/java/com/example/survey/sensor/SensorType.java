@@ -6,7 +6,7 @@ public enum SensorType {
 
   private String direction;
 
-  SensorType(String direction) {
+  SensorType(final String direction) {
     this.direction = direction;
   }
 

@@ -39,6 +39,16 @@ class VehicleStatsSpec extends Specification {
     result.get(SensorType.B).get(4).intValue() == 1
   }
 
+  def "test count by day exceeds max day"() {
+    when:
+    def v1 = new Vehicle(SensorType.A, 1, LocalTime.of(0, 1, 5), LocalTime.of(0, 1, 6))
+    stats.countByDay([v1], 30, 2)
+
+    then:
+    def exception = thrown(IllegalArgumentException)
+    exception.message == "Input day 2 exceeds max day 1"
+  }
+
   def "test count average"() {
     when:
     def v1 = new Vehicle(SensorType.A, 1, LocalTime.of(0, 1, 5), LocalTime.of(0, 1, 6))

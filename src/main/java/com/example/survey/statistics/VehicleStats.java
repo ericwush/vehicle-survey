@@ -18,9 +18,18 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class VehicleStats {
 
+  // I would introduce Javaslang lib which provides Tuples
+  // so it's easier to have richer info in return types
+  // e.g. it can self contain intervalInMinutes and interpret the numbers representing the session
+  // of a day to be more descriptive (present as time range)
+
   public Map<SensorType, Map<Integer, Long>> countByDay(final List<Vehicle> vehicles,
                                                         final int intervalInMinutes,
                                                         final int day) {
+    int days = vehicles.stream().collect(groupingBy(Vehicle::getDay)).keySet().size();
+    if (day > days) {
+      throw new IllegalArgumentException("Input day " + day + " exceeds max day " + days);
+    }
     return countAll(
         vehicles.stream()
             .collect(groupingBy(Vehicle::getDay))
