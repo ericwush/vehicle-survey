@@ -3,6 +3,7 @@ package com.example.survey.vehicle;
 import com.example.survey.sensor.SensorDailyRecords;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -26,11 +27,12 @@ public class VehicleProcessor {
   }
 
   public List<Vehicle> process(final List<SensorDailyRecords> sensorRecords) {
-    return converter.convert()
+    return Collections.unmodifiableList(
+        converter.convert()
             .andThen(groupVehiclesByDays())
             .andThen(combineVehiclesByDays())
             .andThen(joinFutureVehicles())
-            .apply(sensorRecords);
+            .apply(sensorRecords));
   }
 
   private Function<Stream<Vehicle>, Stream<List<Vehicle>>> groupVehiclesByDays() {
